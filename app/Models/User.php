@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -63,6 +64,21 @@ class User extends Authenticatable implements FilamentUser
         if (request()->is('admin/shield/roles/create')) {
             return $this->hasRole('Super Admin');
         }
+        
+        if (request()->is('admin/users/*/edit')) {
+            return $this->hasRole('Super Admin');
+        }
+
+        if (request()->is('admin/shield/roles/*/edit')) {
+            return $this->hasRole('Super Admin');
+        }
+
+        if (request()->is('admin/users/create')) {
+            return $this->hasRole('Super Admin') || $this->hasRole('Admin');
+        }
+
         return $this->hasRole('Super Admin') || $this->hasRole('Admin') || $this->hasRole('Panel Viewer');
     }
 }
+
+
