@@ -74,7 +74,7 @@ class User extends Authenticatable implements FilamentUser
         }
 
         if (request()->is('admin/users/create')) {
-            return $this->hasRole('Super Admin') || $this->hasRole('Admin');
+            return $this->hasRole('Super Admin');
         }
 
         return $this->hasRole('Super Admin') || $this->hasRole('Admin') || $this->hasRole('Panel Viewer');
